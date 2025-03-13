@@ -1,2 +1,4 @@
 # AzureSecretPulse
-A Python-based automation script to monitor Azure AD App Registration secret expirations and send email alerts with an HTML preview.
+
+This Python script automates the monitoring of Azure AD App Registration secrets and sends email alerts when they are about to expire.
+
