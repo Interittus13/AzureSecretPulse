@@ -5,8 +5,6 @@ This Python script automates the monitoring of Azure AD App Registration secrets
 ### 📊 Feature Preview:
 <img src="static/alert-preview.png" width="90%" alt="Report Screenshot"></img>
 
----
-
 ## Features
 - Fetches App Registrations via Microsoft Graph API.
 - Checks for expiring secrets within a specified threshold.
