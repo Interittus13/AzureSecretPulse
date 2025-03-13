@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expiring App Registration Secrets Alert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f9f9f9;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .alert-card {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: #e0e0e0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .alert-header {
+            background-color: #f44336;
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .alert-icon {
+            display: inline-flex;
+            width: 24px;
+            height: 24px;
+        }
+
+        .alert-body {
+            padding: 24px;
+        }
+
+        .alert-message {
+            margin-bottom: 24px;
+        }
+
+        .alert-message p {
+            margin-bottom: 12px;
+        }
+
+        .alert-message strong {
+            font-weight: 600;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 24px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            color: #666666;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.875rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            background-color: #e53935;
+        }
+
+        .support-text {
+            font-size: 0.875rem;
+            color: #666666;
+        }
+
+        .alert-footer {
+            background-color: #f5f5f5;
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.875rem;
+            color: #333333;
+        }
+
+        @media (max-width: 640px) {
+            .alert-footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="alert-card">
+        <div class="alert-header">
+            <div class="alert-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                    </path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
+            <h2>Expiring App Registration Secrets Alert</h2>
+        </div>
+
+        <div class="alert-body">
+            <div class="alert-message">
+                <p>Dear Admin,</p>
+                <p>The following App Registration secrets will expire in the next <strong>30 days</strong>. Please take action to renew them.</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>App Registration</th>
+                            <th>App ID</th>
+                            <th>Expiry Date</th>
+                            <th>Days Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for secret in secrets %}
+                        <tr>
+                            <td>{{ secret["App Registration"] }}</td>
+                            <td>{{ secret["App ID"] }}</td>
+                            <td>{{ secret["Secret Expiry Date"] }}</td>
+                            <td>{{ secret["Days Remaining"] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="actions">
+                <a href="https://portal.azure.com" class="btn">Renew Now</a>
+                <p class="support-text">If you need assistance, please contact IT support.</p>
+            </div>
+        </div>
+
+        <div class="alert-footer">
+            <div>Best regards,</div>
+            <div>IT Team | Your Company</div>
+        </div>
+    </div>
+</body>
+
+</html>
